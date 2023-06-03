@@ -1,26 +1,24 @@
 package ua.com.hillel;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import ua.com.hillel.pages.HillelHomePage;
 import ua.com.hillel.pages.TestingCoursesPage;
 import ua.com.hillel.utils.ConfigProvider;
+
+import static com.codeborne.selenide.Selenide.*;
 
 import java.util.List;
 
 
 public class Main {
     public static void main(String[] args) {
-
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get(ConfigProvider.BASE_URL);
-
-        HillelHomePage hillelHomePage = PageFactory.initElements(driver, HillelHomePage.class);
+        Configuration.baseUrl = ConfigProvider.BASE_URL;
+       open("/");
+        HillelHomePage hillelHomePage = new HillelHomePage();
         hillelHomePage.goToCourse("Тестування");
 
-        TestingCoursesPage testingCoursesPage = PageFactory.initElements(driver, TestingCoursesPage.class);
+        TestingCoursesPage testingCoursesPage = new TestingCoursesPage();
 
         List<String> courseNames = testingCoursesPage.getCourses();
         System.out.println(courseNames);
@@ -28,12 +26,7 @@ public class Main {
         List<String> additionalCoursesName = testingCoursesPage.getAdditionalCourses();
         System.out.println(additionalCoursesName);
 
-        List<String> listOfOpportunities = testingCoursesPage.getOpportunities();
-        System.out.println(listOfOpportunities);
-
-        testingCoursesPage.goToCategory("Дитячі курси");
-
-        driver.quit();
+        closeWebDriver();
     }
 }
 
