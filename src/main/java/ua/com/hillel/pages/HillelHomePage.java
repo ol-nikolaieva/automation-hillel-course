@@ -1,19 +1,21 @@
 package ua.com.hillel.pages;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import java.util.NoSuchElementException;
 
-public class HillelHomePage {
-    @FindBy(css = "a.block-course-cats_link.course-cat-bar")
-    private List<WebElement> courses;
+import static com.codeborne.selenide.Selenide.$$;
 
+public class HillelHomePage  {
+    private ElementsCollection courses = $$("a.block-course-cats_link.course-cat-bar");
+
+    public HillelHomePage() {
+        super();
+    }
 
     public void goToCourse(String course) throws NoSuchElementException {
         boolean courseFound = false;
-        for (WebElement categoryLink : courses) {
+        for (SelenideElement categoryLink : courses) {
             if (categoryLink.getText().contains(course)) {
                 categoryLink.click();
                 courseFound = true;
